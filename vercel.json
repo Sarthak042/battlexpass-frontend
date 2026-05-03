@@ -1,0 +1,16 @@
+/*
+  Vercel deployment config for the React frontend.
+  - Rewrites all routes to index.html so React Router works correctly.
+  - No build command needed here; Vercel detects it from package.json.
+*/
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}
