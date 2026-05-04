@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 import AdminRoute from './components/AdminRoute';
@@ -22,6 +23,7 @@ const App = () => {
   return (
     <div className="min-h-screen bg-surface-DEFAULT">
       <Navbar />
+      <Analytics />
       <Routes>
         {/* Public */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
