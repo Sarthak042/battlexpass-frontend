@@ -92,7 +92,11 @@ const MatchCard = ({ match, onJoined }) => {
       {/* Countdown */}
       {match.status === 'upcoming' && (
         <div className="mb-3">
-          <CountdownTimer targetDate={match.match_start_time} />
+         <CountdownTimer
+  targetDate={new Date(match.match_start_time).toLocaleString("en-US", {
+    timeZone: "Asia/Kolkata"
+  })}
+/>
         </div>
       )}
 

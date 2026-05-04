@@ -111,12 +111,20 @@ const Dashboard = () => {
                       <p className="font-semibold text-white text-sm truncate">{match.title}</p>
                       <p className="text-xs text-gray-400">{match.game}</p>
                     </div>
+
+                    {/* ✅ FIXED TIME HERE */}
                     <div className="text-right flex-shrink-0">
-                      <CountdownTimer targetDate={match.match_start_time} className="justify-end" />
+                      <CountdownTimer
+                        targetDate={new Date(match.match_start_time).toLocaleString("en-US", {
+                          timeZone: "Asia/Kolkata"
+                        })}
+                        className="justify-end"
+                      />
                       <span className={`badge mt-1 ${match.status === 'upcoming' ? 'badge-cyan' : match.status === 'live' ? 'badge-green' : 'badge-gray'}`}>
                         {match.status}
                       </span>
                     </div>
+
                   </div>
                 ))}
               </div>
@@ -146,7 +154,11 @@ const Dashboard = () => {
                       </div>
                       <div>
                         <p className="text-xs font-medium text-white line-clamp-1 max-w-[120px]">{txn.description}</p>
-                        <p className="text-xs text-gray-500">{new Date(txn.createdAt).toLocaleDateString()}</p>
+                        <p className="text-xs text-gray-500">
+                          {new Date(txn.createdAt).toLocaleDateString("en-IN", {
+                            timeZone: "Asia/Kolkata"
+                          })}
+                        </p>
                       </div>
                     </div>
                     <span className={`text-sm font-bold ${txn.type === 'credit' ? 'text-neon-green' : 'text-neon-pink'}`}>
