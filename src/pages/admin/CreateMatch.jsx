@@ -42,34 +42,39 @@ const CreateMatch = () => {
   const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!form.title || !form.max_slots || !form.match_start_time) {
-      return toast.error('Title, max slots, and start time are required');
-    }
+  e.preventDefault();
 
-    let prize_distribution = null;
-    if (form.prize_distribution.trim()) {
-      try {
-        prize_distribution = JSON.parse(form.prize_distribution);
-      } catch {
-        return toast.error('Prize distribution must be valid JSON. Example: {"1st": 500, "2nd": 300}');
-      }
-    }
+  if (!form.title || !form.max_slots || !form.match_start_time) {
+    return toast.error('Title, max slots, and start time are required');
+  }
 
-    setLoading(true);
+  let prize_distribution = null;
+  if (form.prize_distribution.trim()) {
     try {
-      const { data } = await api.post('/admin/create-match', { ...form, prize_distribution });
-      if (data.success) {
-        toast.success('Match created successfully! 🎮');
-        navigate('/admin');
-      }
-    } catch (err) {
-      toast.error(err.response?.data?.error || 'Failed to create match');
-    } finally {
-      setLoading(false);
+      prize_distribution = JSON.parse(form.prize_distribution);
+    } catch {
+      return toast.error('Prize distribution must be valid JSON. Example: {"1st": 500, "2nd": 300}');
     }
-  };
+  }
 
+  setLoading(true);
+  try {
+    const { data } = await api.post('/admin/create-match', {
+      ...form,
+      match_start_time: new Date(form.match_start_time).toISOString(), // ✅ FIX
+      prize_distribution
+    });
+
+    if (data.success) {
+      toast.success('Match created successfully! 🎮');
+      navigate('/admin');
+    }
+  } catch (err) {
+    toast.error(err.response?.data?.error || 'Failed to create match');
+  } finally {
+    setLoading(false);
+  }
+};
 
 
   return (
