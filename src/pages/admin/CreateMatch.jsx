@@ -59,9 +59,11 @@ const CreateMatch = () => {
 
   setLoading(true);
   try {
+    const formattedTime = new Date(form.match_start_time);
+
     const { data } = await api.post('/admin/create-match', {
       ...form,
-      match_start_time: new Date(form.match_start_time).toISOString(), // ✅ FIX
+      match_start_time: formattedTime.toISOString(), // ✅ FINAL FIX
       prize_distribution
     });
 
@@ -75,7 +77,6 @@ const CreateMatch = () => {
     setLoading(false);
   }
 };
-
 
   return (
     <div className="page-wrapper">
